@@ -1,5 +1,6 @@
 const express = require('express');
 const { productsModel } = require('./models');
+const { productsService } = require('./services/index');
 const connection = require('./models/connection');
 
 const app = express();
@@ -19,17 +20,15 @@ app.post('/products', async (req, res) => {
 
 app.get('/products/:id', async (req, res) => {
   const { id } = req.params;
-  const product = await productsModel.findById(id);
-
-  if (!product) return res.status(404).json({ message: 'Product not found' });
-
-  res.status(200).json(product);
+  const { type, message } = await productsService.findById(Number(id));
+  if (type) return res.status(type).json({ message });
+  res.status(200).json(message);
 });
 
 app.get('/products', async (_req, res) => {
-  const allProducts = await productsModel.allProducts();
+  const allProducts = await productsService.allProducts();
 
-  res.status(200).json(allProducts);
+  res.status(200).json(allProducts.message);
 });
 
 // não remova esse endpoint, é para o avaliador funcionar
