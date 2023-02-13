@@ -69,6 +69,50 @@ describe('Testa o controller de products', () => {
     })
   })
 
+  describe('Testa a função insert', () => {
+    it('Testa o caso de sucesso', async () => {
+      // Arrange
+      const req = { body: {id: '', name: ''} };
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      
+      sinon.stub(productsService, 'insert').resolves(productMock)
+      // Act
+      await productsController.insert(req, res);
+  
+      // Assert
+      expect(res.status).to.have.been.calledWith(201)
+      expect(res.json).to.have.been.calledWith([{ id: 1, name: 'Martelo de Thor' }])
+
+    })
+
+    it('Testa o caso de sucesso', async () => {
+      // Arrange
+      const req = { body: {id: '', name: ''} };
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      
+      sinon.stub(productsService, 'insert').resolves({
+        type: 422,
+        message: "\"name\" length must be at least 5 characters long"
+      })
+      // Act
+      await productsController.insert(req, res);
+  
+      // Assert
+      expect(res.status).to.have.been.calledWith(422)
+      expect(res.json).to.have.been.calledWith({
+        type: 422,
+        message: "\"name\" length must be at least 5 characters long"
+      })
+
+    })
+  })
+
   afterEach(() => {
     sinon.restore();
   })
