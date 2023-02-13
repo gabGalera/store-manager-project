@@ -1,7 +1,21 @@
 const express = require('express');
 const { productsModel } = require('./models');
+const connection = require('./models/connection');
 
 const app = express();
+
+app.use(express.json());
+
+app.post('/products', async (req, res) => {
+  const { name } = req.body;
+  const allProducts = await productsModel.allProducts();
+  const id = allProducts.length + 1;
+  await connection.execute(
+    'INSERT INTO products VALUE ( ?, ? )',
+    [id, name],
+  );
+  res.status(201).json({ id, name });
+});
 
 app.get('/products/:id', async (req, res) => {
   const { id } = req.params;
