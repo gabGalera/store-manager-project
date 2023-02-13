@@ -30,6 +30,21 @@ describe('Testa o model de products', () => {
       expect(response).to.be.deep.equal(productMock[0])
   
     })
+    
+  })
+
+  describe('Testa a função insert', () => {
+    it('Testa o caso de sucesso', async () => {
+      // Arrange
+      sinon.stub(connection, 'execute').resolves([{ insertId: 1}])
+      // Act
+      const response = await productsModel.insert({id: 1, name: 'Martelo de Thor'});
+  
+      // Assert
+      expect(response).to.be.equal(1)
+  
+    })
+    
   })
 
   afterEach(() => {
