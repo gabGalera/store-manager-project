@@ -1,4 +1,5 @@
 const express = require('express');
+const { productsModel } = require('./models');
 const connection = require('./models/connection');
 
 const app = express();
@@ -16,9 +17,7 @@ app.get('/products/:id', async (req, res) => {
 });
 
 app.get('/products', async (_req, res) => {
-  const [allProducts] = await connection.execute(
-    'SELECT * FROM StoreManager.products',
-  );
+  const [allProducts] = await productsModel.allProducts();
 
   res.status(200).json(allProducts);
 });
