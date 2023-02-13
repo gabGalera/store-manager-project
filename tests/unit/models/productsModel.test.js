@@ -28,7 +28,6 @@ describe('Testa o model de products', () => {
   
       // Assert
       expect(response).to.be.deep.equal(productMock[0])
-  
     })
     
   })
@@ -44,7 +43,6 @@ describe('Testa o model de products', () => {
       expect(response).to.be.equal(1)
   
     })
-    
   })
 
   afterEach(() => {
