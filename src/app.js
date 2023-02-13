@@ -1,15 +1,11 @@
 const express = require('express');
 const { productsModel } = require('./models');
-const connection = require('./models/connection');
 
 const app = express();
 
 app.get('/products/:id', async (req, res) => {
   const { id } = req.params;
-  const [[product]] = await connection.execute(
-    'SELECT * FROM StoreManager.products WHERE id = ?',
-    [Number(id)],
-  );
+  const product = await productsModel.findById(id);
 
   if (!product) return res.status(404).json({ message: 'Product not found' });
 
@@ -17,7 +13,7 @@ app.get('/products/:id', async (req, res) => {
 });
 
 app.get('/products', async (_req, res) => {
-  const [allProducts] = await productsModel.allProducts();
+  const allProducts = await productsModel.allProducts();
 
   res.status(200).json(allProducts);
 });
