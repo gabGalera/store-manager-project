@@ -1,20 +1,11 @@
 const express = require('express');
-const { productsController } = require('./controllers/index');
-const { salesService, productsService } = require('./services');
+const { productsController, salesController } = require('./controllers/index');
 
 const app = express();
 
 app.use(express.json());
 
-app.post('/sales', async (req, res) => {
-  const { body } = req;
-  const allSales = await salesService.findAll();
-  const allProducts = await productsService.allProducts();
-  const { type, message } = await salesService.insertSaleProduct(allSales, body, allProducts);
-
-  if (type) return res.status(type).json({ message });
-  res.status(201).json(message);
-});
+app.post('/sales', salesController.newSale);
 
 app.post('/products', productsController.insert);
 
