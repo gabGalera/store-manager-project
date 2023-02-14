@@ -47,10 +47,10 @@
     "containerId": "",
     "name": "http://localhost:3000/products/",
     "url": "http://localhost:3000/products/1",
-    "method": "PUT",
+    "method": "DELETE",
     "sortNum": 0,
     "created": "2023-02-13T19:51:26.074Z",
-    "modified": "2023-02-14T20:58:05.827Z",
+    "modified": "2023-02-14T21:18:08.544Z",
     "headers": [],
     "params": [],
     "body": {
