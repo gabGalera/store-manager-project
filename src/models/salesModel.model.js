@@ -20,7 +20,7 @@ const insertSale = async (allSales) => {
 const insertSaleProduct = async (id, body) => {
   body.forEach(async (sale) => {
     await connection.execute(
-      'INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity) VALUE (?,?,?)',
+      'INSERT INTO sales_products (sale_id, product_id, quantity) VALUE (?,?,?)',
       [Number(id), sale.productId, sale.quantity]
       ,
     );
