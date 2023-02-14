@@ -15,6 +15,10 @@ app.get('/sales/:id', salesProductsController.findById);
 
 app.get('/sales', salesProductsController.allSales);
 
+// app.delete('/products/:id', async (req, res) => {
+//   const { id } = req.params;
+// });
+
 app.put('/products/:id', productsController.updateById);
 
 app.get('/products/:id', productsController.findById);

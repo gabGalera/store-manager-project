@@ -26,6 +26,7 @@ const updateById = async (req, res) => {
   const { name } = req.body;
   const { type, message } = await productsService.updateById(id, name);
   if (type) return res.status(type).json({ message });
+  message.name = name;
   res.status(200).json(message);
 };
 
