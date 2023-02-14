@@ -79,6 +79,7 @@ describe('Testa o controller de products', () => {
       res.json = sinon.stub().returns();
       
       sinon.stub(productsService, 'insert').resolves(productMock)
+      
       // Act
       await productsController.insert(req, res);
   
