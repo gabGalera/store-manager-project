@@ -11,16 +11,34 @@ app.post('/sales', salesController.newSale);
 app.get('/sales/:id', async (req, res) => {
   const { id } = req.params;
   const [sale] = await connection.execute(
-    'SELECT * FROM sales WHERE id = ?',
+    `SELECT 
+      s.date,
+      sp.product_id AS productId,
+      sp.quantity AS quantity
+    FROM sales_products AS sp
+    LEFT JOIN sales AS s
+    ON sp.sale_id = s.id
+    WHERE s.id = ?`,    
     [id],
   );
-  if (!sale) return res.status(404).json({ message: 'Sale not found' });
+  if (!sale.length) return res.status(404).json({ message: 'Sale not found' });
   res.status(200).json(sale);
 });
 
 app.get('/sales', async (_req, res) => {
   const [allSales] = await connection.execute(
-    'SELECT * FROM sales',
+    `SELECT 
+      sp.sale_id AS saleId,
+      s.date,
+      sp.product_id AS productId,
+      sp.quantity AS quantity
+    FROM
+      sales_products AS sp
+    LEFT JOIN
+      sales AS s
+    ON 
+      sp.sale_id = s.id`
+    ,
   );
   res.status(200).json(allSales);
 });
