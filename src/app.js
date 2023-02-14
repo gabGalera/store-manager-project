@@ -4,8 +4,6 @@ const {
   salesController,
   salesProductsController,
 } = require('./controllers/index');
-const connection = require('./models/connection');
-const { productsService } = require('./services');
 
 const app = express();
 
@@ -17,16 +15,7 @@ app.get('/sales/:id', salesProductsController.findById);
 
 app.get('/sales', salesProductsController.allSales);
 
-app.delete('/products/:id', async (req, res) => {
-  const { id } = req.params;
-  const { type, message } = await productsService.findById(id);
-  if (type) return res.status(404).json({ message });
-  await connection.execute(
-    'DELETE FROM products WHERE id = ?',
-    [id],
-  );
-  return res.status(204).json();
-});
+app.delete('/products/:id', productsController.deleteById);
 
 app.put('/products/:id', productsController.updateById);
 

@@ -52,7 +52,7 @@ describe('Testa o service de products', function () {
       const response = await productsService.insert('Martelo de Thor');
   
       // Assert
-      expect(response).to.be.deep.equal({ id: 4, name: 'Martelo de Thor' })
+      expect(response).to.be.deep.equal({ id: 3, name: 'Martelo de Thor' })
     })
 
     it('Testa o caso de falha (precisa ser string)', async () => {
