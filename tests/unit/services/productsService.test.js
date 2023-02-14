@@ -47,12 +47,17 @@ describe('Testa o service de products', function () {
   describe('Testa a função insert', () => {
     it('Testa o caso de sucesso', async () => {
       // Arrange
-      sinon.stub(productsModel, 'insert').resolves([{ insertId: 1 }])
+      sinon.stub(productsModel, 'allProducts').resolves([{ insertId: 4 }])
+      sinon.stub(productsService, 'insert').resolves({
+        id: 4,
+        name: 'Martelo de Thor'
+      })
+
       // Act
       const response = await productsService.insert('Martelo de Thor');
   
       // Assert
-      expect(response).to.be.deep.equal({ id: 3, name: 'Martelo de Thor' })
+      expect(response).to.be.deep.equal({ id: 4, name: 'Martelo de Thor' })
     })
 
     it('Testa o caso de falha (precisa ser string)', async () => {
