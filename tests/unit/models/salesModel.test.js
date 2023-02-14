@@ -33,13 +33,14 @@ describe('Testa o model de sales', () => {
   
   it('Testa a função insertSaleProduct', async () => {
     // Arrange
-    sinon.stub(connection, 'execute').resolves(mockInsertId)
+    sinon.stub(connection, 'execute').resolves(allSalesMock)
     
     // Act
-    const response = await salesModel.insertSale(3, allSalesMock);
+    await salesModel.insertSaleProduct(3, allSalesMock);
+    const allSales = await salesModel.findAll()
 
     // Assert
-    expect(response).to.be.equal(3)
+    expect(allSales).to.be.deep.equal(allSalesMock[0])
   
     })
 
