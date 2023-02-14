@@ -1,6 +1,9 @@
 const express = require('express');
-const { productsController, salesController } = require('./controllers/index');
-const connection = require('./models/connection');
+const {
+  productsController,
+  salesController,
+  salesProductsController,
+} = require('./controllers/index');
 
 const app = express();
 
@@ -8,40 +11,9 @@ app.use(express.json());
 
 app.post('/sales', salesController.newSale);
 
-app.get('/sales/:id', async (req, res) => {
-  const { id } = req.params;
-  const [sale] = await connection.execute(
-    `SELECT 
-      s.date,
-      sp.product_id AS productId,
-      sp.quantity AS quantity
-    FROM sales_products AS sp
-    LEFT JOIN sales AS s
-    ON sp.sale_id = s.id
-    WHERE s.id = ?`,    
-    [id],
-  );
-  if (!sale.length) return res.status(404).json({ message: 'Sale not found' });
-  res.status(200).json(sale);
-});
+app.get('/sales/:id', salesProductsController.findById);
 
-app.get('/sales', async (_req, res) => {
-  const [allSales] = await connection.execute(
-    `SELECT 
-      sp.sale_id AS saleId,
-      s.date,
-      sp.product_id AS productId,
-      sp.quantity AS quantity
-    FROM
-      sales_products AS sp
-    LEFT JOIN
-      sales AS s
-    ON 
-      sp.sale_id = s.id`
-    ,
-  );
-  res.status(200).json(allSales);
-});
+app.get('/sales', salesProductsController.allSales);
 
 app.get('/products/:id', productsController.findById);
 
