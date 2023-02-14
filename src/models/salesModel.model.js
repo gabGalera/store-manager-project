@@ -18,13 +18,12 @@ const insertSale = async (allSales) => {
 };
 
 const insertSaleProduct = async (id, body) => {
-  body.forEach(async (sale) => {
+  Promise.all(body.map(async (sale) => {
     await connection.execute(
       'INSERT INTO sales_products (sale_id, product_id, quantity) VALUE (?,?,?)',
-      [Number(id), sale.productId, sale.quantity]
-      ,
+      [Number(id), sale.productId, sale.quantity],
     );
-  });
+  }));
 };
 
 module.exports = {

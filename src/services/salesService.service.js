@@ -6,24 +6,24 @@ const findAll = async () => {
   return { type: null, message: response };
 };
 
-const insertSale = async (payload) => {
-  const id = await salesModel.insertSale(payload);
+const insertSale = async (allSales) => {
+  const id = await salesModel.insertSale(allSales);
   return { type: null, message: id };
 };
 
-const insertSaleProduct = async (payload, body, allProducts) => {
+const insertSaleProduct = async (allSales, body, allProducts) => {
   const responseArray = [];
   body.forEach(async (sale) => {
     validateSalesProducts(sale, allProducts, responseArray);
   });
 
   if (responseArray.length === 0) {
-    const id = await salesModel.insertSale(payload);
+    const id = await salesModel.insertSale(allSales);
     await salesModel.insertSaleProduct(Number(id), body);
     return {
       type: null,
       message: {
-        id,
+        id: Number(id),
         itemsSold: body,
       },
     };
