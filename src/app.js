@@ -4,7 +4,6 @@ const {
   salesController,
   salesProductsController,
 } = require('./controllers/index');
-const { productsService } = require('./services');
 
 const app = express();
 
