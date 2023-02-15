@@ -4,12 +4,25 @@ const {
   salesController,
   salesProductsController,
 } = require('./controllers/index');
+const { salesProductsService, productsService } = require('./services');
 
 const app = express();
 
 app.use(express.json());
 
 app.delete('/sales/:id', salesController.deleteSale);
+
+app.put('/sales/:id', async (req, res) => {
+  const { body } = req;
+  const { id } = req.params;
+  const products = await productsService.allProducts();
+  const { type, message } = await salesProductsService.updateSaleProduct(id, body, products);
+  if (type) return res.status(type).json({ message });
+  return res.status(200).json({
+    saleId: id,
+    itemsUpdated: body,
+  });
+});
 
 app.get('/sales/:id', salesProductsController.findById);
 

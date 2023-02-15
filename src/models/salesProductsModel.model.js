@@ -1,4 +1,5 @@
 const connection = require('./connection');
+const { deleteSale, insertSaleProduct } = require('./salesModel.model');
 
 const allSales = async () => {
   const [response] = await connection.execute(
@@ -40,8 +41,19 @@ const deleteSaleProduct = async (id) => {
   );
 };
 
+const updateSaleProduct = async (id, body) => {
+  await deleteSaleProduct(id);
+  await deleteSale(id);
+  await connection.execute(
+    'INSERT INTO sales VALUE(?, ?)',
+    [id, new Date()],
+  );
+  await insertSaleProduct(id, body);
+};
+
 module.exports = {
   allSales,
   findById,
   deleteSaleProduct,
+  updateSaleProduct,
 };
