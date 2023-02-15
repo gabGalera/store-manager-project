@@ -20,12 +20,7 @@ app.post('/sales', salesController.newSale);
 
 app.get('/sales', salesProductsController.allSales);
 
-app.get('/products/search', async (req, res) => {
-  const { q } = req.query;
-  const allProducts = await productsService.allProducts();
-  const response = allProducts.message.filter((product) => product.name.includes(q));
-  res.status(200).json(response);
-});
+app.get('/products/search', productsController.searchProduct);
 
 app.delete('/products/:id', productsController.deleteById);
 

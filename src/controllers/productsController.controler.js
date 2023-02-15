@@ -37,10 +37,18 @@ const deleteById = async (req, res) => {
   return res.status(204).json();
 };
 
+const searchProduct = async (req, res) => {
+  const { q } = req.query;
+  const products = await productsService.allProducts();
+  const response = products.message.filter((product) => product.name.includes(q));
+  res.status(200).json(response);
+};
+
 module.exports = {
   findById,
   allProducts,
   insert,
   updateById,
   deleteById,
+  searchProduct,
 };
