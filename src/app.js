@@ -4,6 +4,7 @@ const {
   salesController,
   salesProductsController,
 } = require('./controllers/index');
+const { productsService } = require('./services');
 
 const app = express();
 
@@ -18,6 +19,13 @@ app.get('/sales/:id', salesProductsController.findById);
 app.post('/sales', salesController.newSale);
 
 app.get('/sales', salesProductsController.allSales);
+
+app.get('/products/search', async (req, res) => {
+  const { q } = req.query;
+  const allProducts = await productsService.allProducts();
+  const response = allProducts.message.filter((product) => product.name.includes(q));
+  res.status(200).json(response);
+});
 
 app.delete('/products/:id', productsController.deleteById);
 
