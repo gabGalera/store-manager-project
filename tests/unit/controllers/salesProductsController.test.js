@@ -7,7 +7,7 @@ const { salesService, salesProductsService } = require('../../../src/services');
 const { allProductsMock, productMock } = require('./mocks/productsModel.mock');
 
 const sinonChai = require('sinon-chai');
-const { allSalesMock } = require('./mocks/salesModel.mock');
+const { allSalesMock, mockSale } = require('./mocks/salesModel.mock');
 
 chai.use(sinonChai);
 
@@ -31,6 +31,29 @@ describe('Testa o controller de sales', () => {
       // Assert
       expect(res.status).to.have.been.calledWith(200)
       expect(res.json).to.have.been.calledWith(allSalesMock)
+    })
+
+  });
+
+  describe('Testa a função findById', () => {
+    it('Testa o caso de sucesso', async () => {
+       // Arrange
+      const req = { params: { id: 1 } };
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      
+      sinon.stub(salesProductsService, 'findById').resolves({
+        type: null,
+        message: mockSale
+      })
+      // Act
+      await salesProductsController.findById(req, res);
+      
+      // Assert
+      expect(res.status).to.have.been.calledWith(200)
+      expect(res.json).to.have.been.calledWith(mockSale)
     })
 
   });
