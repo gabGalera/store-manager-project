@@ -46,19 +46,13 @@
     "colId": "history",
     "containerId": "",
     "name": "http://localhost:3000/products/",
-    "url": "http://localhost:3000/products/search?q=",
+    "url": "http://localhost:3000/sales/1",
     "method": "GET",
     "sortNum": 0,
     "created": "2023-02-13T19:51:26.074Z",
-    "modified": "2023-02-15T13:58:57.235Z",
+    "modified": "2023-02-15T15:01:13.267Z",
     "headers": [],
-    "params": [
-      {
-        "name": "q",
-        "value": "",
-        "isPath": false
-      }
-    ],
+    "params": [],
     "body": {
       "type": "json",
       "raw": "[\n  {\n    \"productId\": 2,\n    \"quantity\": 5\n  }\n]",
