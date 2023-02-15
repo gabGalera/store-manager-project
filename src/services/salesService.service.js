@@ -1,4 +1,5 @@
-const { salesModel } = require('../models');
+const { findById } = require('./salesProductsService.service');
+const { salesModel, salesProductsModel } = require('../models');
 const { validateSalesProducts } = require('./validations/validationsInput');
 
 const findAll = async () => {
@@ -31,8 +32,17 @@ const insertSaleProduct = async (allSales, body, allProducts) => {
   return { type: responseArray[0].type, message: responseArray[0].message };
 };
 
+const deleteSale = async (id) => {
+  const { type, message } = await findById(id);
+  if (type) return { type, message };
+  await salesProductsModel.deleteSaleProduct(id);
+  await salesModel.deleteSale(id);
+  return { type: null, message: '' };
+};
+
 module.exports = {
   findAll,
   insertSale,
   insertSaleProduct,
+  deleteSale,
 };

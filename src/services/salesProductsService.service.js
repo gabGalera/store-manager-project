@@ -10,6 +10,7 @@ const findById = async (id) => {
   if (!response.length) return { type: 404, message: 'Sale not found' };
   return { type: null, message: response };
 };
+
 module.exports = {
   allSales,
   findById,
