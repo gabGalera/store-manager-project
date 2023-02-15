@@ -114,6 +114,30 @@ describe('Testa o controller de products', () => {
     })
   })
 
+  describe('Testa a função updateById', () => {
+    it('Testa o caso de sucesso', async () => {
+      // Arrange
+      const req = { params: { id: 1 }, body: { name: 'Martelo de Assis'} };
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      
+      sinon.stub(productsService, 'updateById').resolves({
+        type: null,
+        message: productMock[0]
+      })
+      
+      // Act
+      await productsController.updateById(req, res);
+  
+      // Assert
+      expect(res.status).to.have.been.calledWith(200)
+      expect(res.json).to.have.been.calledWith({ id: 1, name: 'Martelo de Assis' })
+
+    }) 
+  })
+
   afterEach(() => {
     sinon.restore();
   })
